@@ -1,0 +1,4 @@
+/home/austin/alice/localRunMacro/__alice__sim__2018__LHC18b9b__17__266022__AOD202__AliAOD_2/0001/AliAOD.root
+/home/austin/alice/localRunMacro/__alice__sim__2018__LHC18b9b__17__266022__AOD202__AliAOD_2/0002/AliAOD.root
+/home/austin/alice/localRunMacro/__alice__sim__2018__LHC18b9c__20__266480__AOD202__AliAOD_2/0001/AliAOD.root
+/home/austin/alice/localRunMacro/__alice__sim__2018__LHC18b9c__20__266480__AOD202__AliAOD_2/0002/AliAOD.root
