@@ -26,14 +26,12 @@ void runLocalAnalysisROOT6(
     bool            kIsPtHard                   = true,
     bool            kIsHepMC                    = false,
     bool            kOldPtHardBinHandling       = false,
-    bool            kIsRun2                     = true,
+    bool            kIsRun1                     = true,
     TString         localFiles                  = ""
 )
 {
     cout << "Starting test" << endl;
     cout << dataType.Data() << " analysis chosen" << endl;
-
-    //AliTrackContainer::SetDefTrackCutsPeriod(runPeriod);
 
     // Create analysis manager
     AliAnalysisManager* mgr                     = new AliAnalysisManager("LocalAnalysisTaskRunning");
@@ -72,8 +70,8 @@ void runLocalAnalysisROOT6(
 
     // Define trigger names based on run period
     std::vector<TString> triggers;
-    if(kIsRun2) triggers.insert(triggers.end(), {"EJ1","EJ2","INT7"});
-    else triggers.insert(triggers.end(), {"EJE","EMC7","INT7"});
+    if(kIsRun1) triggers.insert(triggers.end(), {"EJE","EMC7","INT7"});
+    else triggers.insert(triggers.end(), {"EJ1","EJ2","INT7"});
 
     AliTrackContainer::SetDefTrackCutsPeriod(runPeriod);
 
@@ -108,7 +106,6 @@ void runLocalAnalysisROOT6(
     if(isMC){
         //AliEmcalRejectMCBackground *MCBGRejectionTask=reinterpret_cast<AliEmcalRejectMCBackground*>(
         //    gInterpreter->ExecuteMacro("$ALICE_PHYSICS/PWG/EMCAL/macros/AddTaskRejectMCBackground.C(\"MCParticlesNotRejected\",\"MCTracksNotRejected\",\"MCClustersNotRejected\",2,0)"));
-
 
         AliEmcalMCTrackSelector *MCParticleSelectorTask=reinterpret_cast<AliEmcalMCTrackSelector*>(
         //    gInterpreter->ExecuteMacro("$ALICE_PHYSICS/PWG/EMCAL/macros/AddTaskMCTrackSelector.C(\"mcparticlesSelected\",\"MCParticlesNotRejected\", kFALSE, kFALSE, -1, kFALSE)"));
@@ -226,13 +223,17 @@ void runLocalAnalysisROOT6(
 
             spectrumTask->SetReadPythiaCrossSectionFast(true);
             spectrumTask->SetFillHSparse(kTRUE);
-            spectrumTask->SetRangeRun1(true);
+            spectrumTask->SetRangeRun1(kIsRun1);
             // New cluster histogram
             spectrumTask->SetMakeClusterHistos1D(true);
             spectrumTask->SetEnergyDefinition(PWGJE::EMCALJetTasks::AliAnalysisTaskEmcalJetEnergySpectrum::kNonLinCorrEnergy);
             spectrumTask->SetForceBeamType(AliAnalysisTaskEmcal::kpp);
+            //spectrumTask->
         }
     }
+
+    AliLog::SetClassDebugLevel("PWGJE::EMCALJetTasks::AliAnalysisTaskEmcalJetEnergySpectrum", 4);
+
 
     if (!mgr->InitAnalysis()) return;
     mgr->PrintStatus();

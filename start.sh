@@ -1,6 +1,6 @@
 #local running with this code requires testfiles downloaded and a testSampleESD.txt or testSampleAOD.txt text file with the input files stored in, for example pPb_5TeV/LHC16q/testSampleESD.txt
 
-energy="pPb_8TeV"
+system="pPb_8TeV"
 
 isMC=true
 collsys="pPb" # pp, pPb, or PbPb
@@ -17,10 +17,10 @@ kSupportAliEventCuts=true
 kIsPtHard=true
 kIsHepMC=false
 kOldPtHardBinHandling=false
-kIsRun2=true
-localFiles="/home/austin/alice/NicoRunMacro/testSampleAOD.txt"
+kIsRun1=false
+localFiles="/home/austin/alice/localRunMacro/testSampleAOD.txt"
 
 
-mkdir -p $energy/$runPeriod
-cd $energy/$runPeriod
-aliroot -x -l -b -q '/home/austin/alice/localRunMacro/runLocalAnalysisROOT6.C('$isMC',"'$collsys'","'$runPeriod'","'$dataType'",'$numLocalFiles','$chunk','$nEventsProcessing','$firstEventProcessing',"'$localCorrConfig'",'$minradius','$maxradius','$kSupportAliEventCuts','$kIsPtHard','$kIsHepMC','$kOldPtHardBinHandling','$kIsRun2',"'$localFiles'")'
+mkdir -p $system/$runPeriod
+cd $system/$runPeriod
+aliroot -x -l -b -q '/home/austin/alice/localRunMacro/runLocalAnalysisROOT6.C('$isMC',"'$collsys'","'$runPeriod'","'$dataType'",'$numLocalFiles','$chunk','$nEventsProcessing','$firstEventProcessing',"'$localCorrConfig'",'$minradius','$maxradius','$kSupportAliEventCuts','$kIsPtHard','$kIsHepMC','$kOldPtHardBinHandling','$kIsRun1',"'$localFiles'")'
