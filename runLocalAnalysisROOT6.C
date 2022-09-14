@@ -3,7 +3,6 @@
 #include "AliAODInputHandler.h"
 #include "AliAnalysisAlien.h"
 #include "AliAnalysisManager.h"
-//#include "AliTrackContainer.h"
 
 R__ADD_INCLUDE_PATH($ALICE_PHYSICS)
 #include "localRunningChain.h"
@@ -109,7 +108,6 @@ void runLocalAnalysisROOT6(
 
         AliEmcalMCTrackSelector *MCParticleSelectorTask=reinterpret_cast<AliEmcalMCTrackSelector*>(
             gInterpreter->ExecuteMacro("$ALICE_PHYSICS/PWG/EMCAL/macros/AddTaskMCTrackSelector.C(\"mcparticlesSelected\",\"MCParticlesNotRejected\", kFALSE, kFALSE, -1, kFALSE)"));
-        //    gInterpreter->ExecuteMacro("$ALICE_PHYSICS/PWG/EMCAL/macros/AddTaskMCTrackSelector.C(\"mcparticlesSelected\",\"usedefault\", kFALSE, kFALSE, -1, kFALSE)"));
         MCParticleSelectorTask->SetRejectPhotonMother(true);
     }
 
@@ -151,7 +149,6 @@ void runLocalAnalysisROOT6(
         // -----------------------------------------
         AliEmcalJetTask *jetTaskDetector=reinterpret_cast<AliEmcalJetTask*>(
             gInterpreter->ExecuteMacro(Form("$ALICE_PHYSICS/PWGJE/EMCALJetTasks/macros/AddTaskEmcalJet.C( \"MCTracksNotRejected\", \"MCClustersNotRejected\", AliJetContainer::antikt_algorithm, 0.%i, AliJetContainer::kFullJet, 0.15, 0.30, 0.01, AliJetContainer::E_scheme, \"Jet\", 0.1, kFALSE, kFALSE )",r)));
-        //    gInterpreter->ExecuteMacro(Form("$ALICE_PHYSICS/PWGJE/EMCALJetTasks/macros/AddTaskEmcalJet.C( \"usedefault\", \"usedefault\", AliJetContainer::antikt_algorithm, 0.%i, AliJetContainer::kFullJet, 0.15, 0.30, 0.01, AliJetContainer::E_scheme, \"Jet\", 0.1, kFALSE, kFALSE,\"Default\" )",r)));
         jetTaskDetector->SelectCollisionCandidates(AliVEvent::kAny);
         jetTaskDetector->GetClusterContainer(0)->SetDefaultClusterEnergy(AliVCluster::kHadCorr);
         jetTaskDetector->GetClusterContainer(0)->SetClusHadCorrEnergyCut(0.3);
@@ -163,7 +160,6 @@ void runLocalAnalysisROOT6(
         // -----------------------------------------
         AliAnalysisTaskEmcalJetTagger *jetTaggerTask=reinterpret_cast<AliAnalysisTaskEmcalJetTagger*>(
             gInterpreter->ExecuteMacro(Form("$ALICE_PHYSICS/PWGJE/EMCALJetTasks/macros/AddTaskEmcalJetTagger.C(\"Jet_AKTFullR0%i0_MCTracksNotRejected_pT0150_MCClustersNotRejected_E0300_E_scheme\",\"Jet_AKTFullR0%i0_mcparticlesSelected_pT0000_E_scheme\",0.%i,\"\",\"\",\"MCTracksNotRejected\",\"MCClustersNotRejected\",\"EMCALFID\",\"\",AliVEvent::kAny)",r,r,r)));
-        //    gInterpreter->ExecuteMacro(Form("$ALICE_PHYSICS/PWGJE/EMCALJetTasks/macros/AddTaskEmcalJetTagger.C(\"Jet_AKTFullR0%i0_tracks_pT0150_caloClusters_E0300_E_scheme\",\"Jet_AKTFullR0%i0_mcparticlesSelected_pT0000_E_scheme\",0.%i,\"\",\"\",\"tracks\",\"caloClusters\",\"EMCALFID\",\"\",AliVEvent::kAny)",r,r,r)));
         jetTaggerTask->SetNCentBins(1);
         if(!kSupportAliEventCuts) jetTaggerTask->SetUseBuiltinEventSelection(true);
         jetTaggerTask->SetIsPythia(kIsPtHard);
